@@ -2,7 +2,10 @@ name: Daily Commit
 
 on:
   schedule:
-    - cron: '0 10 * * *'
+    - cron: '0 4 * * *'
+
+permissions:
+  contents: write
 
 jobs:
   commit:
