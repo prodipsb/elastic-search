@@ -2,7 +2,7 @@ name: Elastic Search Update Commit
 
 on:
   schedule:
-    - cron: '0 4,16 * * *'  # Runs at 09:00 AM and 09:00 OM BD Time daily
+    - cron: '0 4,16 * * *'  # Runs at 10:00 AM and 10:00 PM BD Time daily
 
 permissions:
   contents: write  # Grants GitHub Actions write access
@@ -14,16 +14,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Ensures the full commit history is fetched
+          fetch-depth: 0  # Ensures full commit history is fetched
 
       - name: Set up Git user
         run: |
           git config --global user.name "prodipsb"
           git config --global user.email "prodip5080@gmail.com"
 
-      - name: Pull latest changes
+      - name: Pull latest changes (Force Rebase)
         run: |
-          git pull origin master --rebase  # Pulls the latest changes before pushing
+          git pull --rebase --autostash origin master || git reset --hard origin/master
 
       - name: Make a commit
         run: |
@@ -31,6 +31,6 @@ jobs:
           git add auto-commit-log.txt
           git commit -m "Automated commit on $(date)" || exit 0
 
-      - name: Push changes
+      - name: Push changes (Force Push if needed)
         run: |
-          git push origin master
+          git push origin master || (git pull --rebase origin master && git push origin master)
