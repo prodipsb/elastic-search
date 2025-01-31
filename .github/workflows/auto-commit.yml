@@ -2,7 +2,7 @@ name: Elastic Search Update Commit
 
 on:
   schedule:
-    - cron: '0 4,16 * * *'  # Runs at 10:00 AM UTC daily
+    - cron: '0 4,16 * * *'  # Runs at 09:00 AM and 09:00 OM BD Time daily
 
 permissions:
   contents: write  # Grants GitHub Actions write access
